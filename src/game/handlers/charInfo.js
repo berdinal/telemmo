@@ -25,11 +25,11 @@ import { capitalize } from './helpers'
 export default function call (dao, provider, _, msg) {
   return dao.character
     .find({
-      _id: ObjectId(msg.player.currentCharId),
+      _id: new ObjectId(msg.player.currentCharId),
     })
     .then(head)
     .then(rejectUndefined(msg, _('Invalid char Id')))
-    .then(char => membersExp(dao, [ObjectId(char.id)])
+    .then(char => membersExp(dao, [new ObjectId(char.id)])
       .then(head)
       .then(expObj => merge(char, {
         exp: expObj ? expObj.exp : 0,

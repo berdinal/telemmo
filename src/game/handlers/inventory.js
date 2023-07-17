@@ -34,7 +34,7 @@ export default function call (dao, provider, _, msg) {
 
   return dao.character
     .find({ playerId: msg.player.id })
-    .then(map(pipe(prop('id'), ObjectId)))
+    .then(map(pipe(prop('id'), new ObjectId)))
     .then(partial(membersEquips, [dao]))
     .then(head)
     .then(rejectUndefined(msg, _('You don\'t have any equips yet.')))

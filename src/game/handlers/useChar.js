@@ -18,7 +18,7 @@ export default function call (dao, provider, _, msg) {
 
   return dao.character
     .find({
-      _id: ObjectId(charId),
+      _id: new ObjectId(charId),
       playerId: msg.player.id,
     })
     .then(nth(0))

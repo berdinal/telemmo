@@ -26,6 +26,13 @@ module.exports = {
         test: /\.json$/,
         use: 'json-loader',
       },
+      // {
+      //   test: /\.js$/,
+      //   use: [
+      //     'gettext-loader',
+      //     'babel-loader',
+      //   ],
+      // },
     ],
   },
   plugins: [

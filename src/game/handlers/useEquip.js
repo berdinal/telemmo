@@ -16,7 +16,7 @@ import models from '../models'
 
 function equipChar (dao, equipId, charId) {
   const equip = models.equips.find(equipId)
-  return dao.character.update({ _id: ObjectId(charId) }, {
+  return dao.character.update({ _id: new ObjectId(charId) }, {
     $set: {
       [`equips.${equip.type}`]: equipId,
     },
@@ -33,7 +33,7 @@ export default function call (dao, provider, _, msg) {
 
   return dao.character
     .find({ playerId: msg.player.id })
-    .then(chars => chars.map(char => ObjectId(char.id)))
+    .then(chars => chars.map(char => new ObjectId(char.id)))
     .then(partial(membersEquips, [dao]))
     .then(head)
     .then(rejectUndefined(msg, _('You don\'t have this equip.')))

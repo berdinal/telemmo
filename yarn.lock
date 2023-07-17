@@ -4198,7 +4198,7 @@ pluralize@^1.2.1:
   resolved "https://registry.npmjs.org/pluralize/-/pluralize-1.2.1.tgz"
   integrity sha512-TH+BeeL6Ct98C7as35JbZLf8lgsRzlNJb5gklRIGHKaPkGl1esOKBc5ALUMd+q08Sr6tiEKM+Icbsxg5vuhMKQ==
 
-po2json@^0.4.1:
+po2json@^0.4.1, po2json@^0.4.5:
   version "0.4.5"
   resolved "https://registry.npmjs.org/po2json/-/po2json-0.4.5.tgz"
   integrity sha512-JH0hgi1fC0t9UvdiyS7kcVly0N1WNey4R2YZ/jPaxQKYm6Cfej7ZTgiEy8LP2JwoEhONceiNS8JH5mWPQkiXeA==

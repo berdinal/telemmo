@@ -42,6 +42,7 @@
     "gettext-loader": "^0.2.2",
     "jest": "18.1.0",
     "json-loader": "0.5.4",
+    "po2json": "^0.4.5",
     "webpack": "^5.88.1",
     "webpack-cli": "^5.1.4"
   }
