@@ -64,7 +64,7 @@ function create (collection, document) {
 
 function destroy (collection, query, options) {
   if (options.hard) {
-    return retry(() => collection.remove(query))
+    return retry(() => collection.deleteOne(query))
   }
 
   return retry(() => collection.findOneAndUpdate(

@@ -36,6 +36,9 @@ export function exploreUntilDead (dao, player, gameMap, char) {
       const monster = randomMonster(gameMap.id)
       const source = { name: 'map', id: gameMap.id }
 
+      console.log('run is function:', is(Function, run)); // <- Log whether run is a function
+      console.log('console.log is function:', is(Function, console.log)); // <- Log whether console.log is a function
+
       return dao.combat.destroy(playerExplorations(player), { hard: true })
         .then(partial(run, [dao, source, [[monster], [char]]]))
         .then(ifElse(

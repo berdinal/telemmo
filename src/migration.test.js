@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 
 const oldPlayer = {
-	"_id" : ObjectId("586c2276248404000fb39ff4"),
+	"_id" : new ObjectId("586c2276248404000fb39ff4"),
 	"gems" : {
 		"Rock" : 1,
 		"Earth" : 5,

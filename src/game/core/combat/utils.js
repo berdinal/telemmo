@@ -12,7 +12,7 @@ export const teamsMemberIds = pipe(
   flatten,
   map(prop('id')),
   filter(ObjectId.isValid),
-  map(ObjectId),
+  map(new ObjectId),
 )
 
 export const combatMemberIds = pipe(
