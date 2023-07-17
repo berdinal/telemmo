@@ -10,8 +10,11 @@ import emoji from 'node-emoji'
 import routes from './routes'
 import tasks from '../../tasks'
 import i18n from '../../i18n'
+import TelegramBot from 'node-telegram-bot-api'
 
 function handleError (provider, error) {
+  console.log('Provider in error handler:', provider)  // New log here
+
   if (error.msg) {
     return provider.send(error.msg.chat, error.text)
   }
@@ -49,14 +52,25 @@ function dispatch (provider, reply) {
   }
 
   if (options) {
-    telegramOptions = merge({
-      reply_markup: {
-        keyboard: options.map(row => row.map(emoji.emojify)),
-      },
-    }, telegramOptions)
+    let keyboard = options.map(row => row.map(emoji.emojify));
+//    console.log("Processed Keyboard:", keyboard); // New log here
+
+    telegramOptions.reply_markup = {   // Modify this line
+      keyboard: keyboard,
+      one_time_keyboard: true   // Assuming you want the keyboard to be one-time
+    };
+
+    console.log("Processed Keyboard:", JSON.stringify(keyboard, null, 2)); // New log here
+    console.log('Telegram options:', JSON.stringify(telegramOptions, null, 2)); // New log here
   }
 
-  return provider.send(to, text, telegramOptions)
+//  console.log('Telegram options:', telegramOptions)  // New log here
+
+
+  const sendResult = provider.send(to, text, telegramOptions)
+  console.log('Result of sending:', sendResult)  // New log here
+
+  return sendResult
 }
 
 function handle (dao, provider, route, msg) {

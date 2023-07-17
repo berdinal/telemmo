@@ -20,3 +20,4 @@ export default function call (dao, provider, _, msg) {
 
   return Promise.resolve(params)
 }
+

@@ -11,6 +11,7 @@ const externals = fs.readdirSync('node_modules')
       merge(modules, objOf(module, `commonjs ${module}`)), {})
 
 module.exports = {
+  mode: 'development',  // or 'production'
   entry: './src/index.js',
   output: {
     path: path.join(__dirname, 'dist'),
@@ -20,17 +21,10 @@ module.exports = {
   devtool: 'source-map',
   externals,
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.json$/,
-        loader: 'json',
-      },
-      {
-        test: /\.js$/,
-        loaders: [
-          'gettext',
-          'babel',
-        ],
+        use: 'json-loader',
       },
     ],
   },
@@ -46,4 +40,3 @@ module.exports = {
     }),
   ],
 }
-

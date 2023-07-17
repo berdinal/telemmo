@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import cluster from 'cluster'
 
 import emoji from 'node-emoji'
@@ -15,11 +17,36 @@ function buildFilter (stream, regex) {
 }
 
 function sendMessage (bot, chat, message, options) {
-  if (process.env.TELEMMO_QUIET) {
+  if (process.env.TELEMMO_QUIET !== "false") {
     return
   }
   bot.sendMessage(chat, emoji.emojify(message), options)
 }
+
+
+// function sendMessage(bot, chat, message, options) {
+// //  console.log('Bot:', bot)  // New log here
+// //  console.log("TeleMMO_QUIET:", process.env.TELEMMO_QUIET)  // New log here
+//   if (process.env.TELEMMO_QUIET ) {
+//     return "TELEMMO_QUIET";
+//   }
+//   const finalOptions = {
+//     reply_markup: {
+//       keyboard: options,
+//       one_time_keyboard: true
+//     }
+//   };
+  
+//   bot.sendMessage(chat, emoji.emojify(message), finalOptions)
+//     .then(() => {
+//       console.log(`Message sent successfully to chat ID ${chat}`); // New log here
+//       return "Message sent successfully"
+//     })
+//     .catch(err => {
+//       console.error(`Failed to send message to chat ID ${chat}. Error: ${err}`); // New log here
+//       return "Failed to send message"
+//     });
+// }
 
 function start () {
   const {
@@ -69,6 +96,13 @@ function start () {
   }
 
   const bot = new TelegramBot(token, options)
+
+  bot.on('polling_error', (error) => {
+    console.log(`Error Code: ${error.code}. Error Message: ${error.message}`);
+  });
+  
+  
+
   const stream = Observable.fromEvent(bot, 'message')
 
   if (process.env.NODE_ENV !== 'production') {

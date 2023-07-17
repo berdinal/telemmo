@@ -7,21 +7,22 @@
     "bluebird": "3.4.7",
     "bluebird-retry": "0.10.1",
     "cuid": "1.3.8",
-    "mongodb": "2.2.21",
+    "dotenv": "^16.3.1",
+    "mongodb": "^5.7.0",
     "newrelic": "1.38.2",
     "node-emoji": "1.5.0",
     "node-gettext": "1.1.0",
-    "node-telegram-bot-api": "0.25.0",
+    "node-telegram-bot-api": "^0.61.0",
     "printf": "0.2.5",
     "ramda": "0.23.0",
     "rx": "4.1.0",
     "source-map-support": "0.4.9"
   },
   "scripts": {
-    "dist": "webpack --progress --colors --config webpack.config.prod.js",
+    "dist": "webpack --progress --config webpack.config.prod.js",
     "prestart": "npm run dist",
     "start": "node dist/telemmo.js",
-    "predev": "webpack --progress --colors --config webpack.config.dev.js",
+    "predev": "webpack --progress --config webpack.config.dev.js",
     "dev": "node dist/telemmo.dev.js",
     "test": "jest",
     "lint": "eslint src/"
@@ -30,7 +31,7 @@
     "babel": "6.5.2",
     "babel-core": "6.22.1",
     "babel-jest": "18.0.0",
-    "babel-loader": "6.2.10",
+    "babel-loader": "^9.1.3",
     "babel-polyfill": "6.22.0",
     "babel-preset-es2015-native-generators": "6.6.0",
     "eslint": "3.14.1",
@@ -38,9 +39,10 @@
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "3.0.2",
     "eslint-plugin-react": "6.9.0",
-    "gettext-loader": "derekstavis/gettext-loader",
+    "gettext-loader": "^0.2.2",
     "jest": "18.1.0",
     "json-loader": "0.5.4",
-    "webpack": "1.14.0"
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4"
   }
 }

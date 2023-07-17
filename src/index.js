@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 import Promise from 'bluebird'
 
 import engine from './engine'
