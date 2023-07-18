@@ -13,7 +13,7 @@ import i18n from '../../i18n'
 import TelegramBot from 'node-telegram-bot-api'
 
 function handleError (provider, error) {
-  console.log('Provider in error handler:', provider)  // New log here
+//  console.log('Provider in error handler:', provider)  // New log here
 
   if (error.msg) {
     return provider.send(error.msg.chat, error.text)
@@ -60,8 +60,8 @@ function dispatch (provider, reply) {
       one_time_keyboard: true   // Assuming you want the keyboard to be one-time
     };
 
-    console.log("Processed Keyboard:", JSON.stringify(keyboard, null, 2)); // New log here
-    console.log('Telegram options:', JSON.stringify(telegramOptions, null, 2)); // New log here
+//    console.log("Processed Keyboard:", JSON.stringify(keyboard, null, 2)); // New log here
+//    console.log('Telegram options:', JSON.stringify(telegramOptions, null, 2)); // New log here
   }
 
 //  console.log('Telegram options:', telegramOptions)  // New log here
