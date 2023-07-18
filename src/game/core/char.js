@@ -17,7 +17,7 @@ export function useChar (dao, playerId, char) {
     }))
     .then(partial(dao.player.update, [
       { _id: playerId },
-      { $set: { currentCharId: char.id } },
+      {  currentCharId: char.id },
     ]))
     .then(always(char))
 }

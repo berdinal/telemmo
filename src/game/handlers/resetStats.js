@@ -5,13 +5,13 @@ import {
 
 function resetStats (dao, char) {
   return dao.character
-    .update({ _id: char.id }, { $set: {
+    .update({ _id: char.id }, { 
       str: 5,
       ref: 5,
       acc: 5,
       con: 5,
       flow: 5,
-    } })
+     })
 }
 
 export default function call (dao, provider, _, msg) {

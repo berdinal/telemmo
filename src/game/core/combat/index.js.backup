@@ -25,7 +25,6 @@ import addTeamsLevels from './addTeamsLevels'
 import initiative from './initiative'
 import { combatMemberIds } from './utils'
 
-const { ObjectId } = require('mongodb');
 
 function markFinished (combat) {
   return pipe(
@@ -94,16 +93,14 @@ function upsertCombat (dao, combat) {
   console.log("Entering upsertCombat with:", {dao, combat});
   let query = {
     'teams.members': {
-        $elemMatch: {
-//        id: { $in: combatMemberIds(combat).map(id => new ObjectId(id)) },
+      $elemMatch: {
         id: { $in: combatMemberIds(combat) },
       },
-  },
+    },
   }
   console.log("Initial query:", query);
 
   if (combat.id) {
-//    query = merge(query, { _id: ObjectId(combat.id) });
     query = merge(query, { _id: combat.id });
     console.log("Updated query after checking combat.id:", query);
   }
@@ -114,11 +111,11 @@ function upsertCombat (dao, combat) {
     });
     console.log("Updated query after checking combat.finishedAt:", query);
   }
-  //Log the query with readable string
-  console.log("Query before update:", JSON.stringify(query, null, 2));
-//  console.log("Final query before update:", query);
 
-  return dao.combat.update(query, combat, { upsert: true })
+  console.log("Final query before update:", query);
+  // const result = dao.combat.update(query, combat, { upsert: true });
+
+  dao.combat.update(query, combat, { upsert: true })
   .then(result => {
     console.log("Update result:", result);
     return result;
@@ -126,8 +123,12 @@ function upsertCombat (dao, combat) {
   .catch(error => {
     console.error("An error occurred while updating combat", error);
   });
-}
 
+  
+  
+  
+//  return result;
+}
 
 
 function mergeFighter (a, b) {

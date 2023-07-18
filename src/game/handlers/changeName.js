@@ -21,7 +21,7 @@ export default function call (dao, provider, _, msg) {
 
   return dao.character.update(
     { _id: msg.player.currentCharId },
-    { $set: { name: newName } },
+    { name: newName },
   ).then(always(params))
 }
 

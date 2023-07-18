@@ -24,7 +24,7 @@ function updateStat (dao, char, statId, changeAmount = 1) {
   const query = pick(['_id', 'updatedAt'], char)
 
   return dao.character.update(query, {
-    $set: { [statId]: currentStatScore + changeAmount },
+     [statId]: currentStatScore + changeAmount
   })
 }
 

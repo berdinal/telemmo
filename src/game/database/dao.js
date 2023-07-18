@@ -32,9 +32,30 @@ function find (collection, query) {
   )
 }
 
+// function update (collection, query, document, options) {
+//   const sealed = merge({}, document)
+//   const opts = merge({ returnOriginal: false }, options || {})
+
+//   return retry(() =>
+//     collection.findOneAndUpdate(query, sealed, opts)
+//       .then(prop('value'))
+//       .then(ifElse(
+//         isNil,
+//         identity,
+//         renameId,
+//       ))
+//   )
+// }
+
+
 function update (collection, query, document, options) {
-  const sealed = merge({}, document)
-  const opts = merge({ returnOriginal: false }, options || {})
+  // Add the $set operator here.
+  const sealed = { $set: merge({}, document) };
+  const opts = merge({ returnOriginal: false }, options || {});
+
+  console.log(`Update called with query: ${JSON.stringify(query)}`);
+  console.log(`Update called with document: ${JSON.stringify(sealed)}`);
+  console.log(`Update called with options: ${JSON.stringify(opts)}`);
 
   return retry(() =>
     collection.findOneAndUpdate(query, sealed, opts)
@@ -44,8 +65,17 @@ function update (collection, query, document, options) {
         identity,
         renameId,
       ))
-  )
+      .then(result => {
+        console.log("Update result:", result);
+        return result;
+      })
+      .catch(err => {
+        console.error('Update error:', err);
+        throw err;  // Rethrow the error to handle it in the calling code
+      })
+  );
 }
+
 
 function create (collection, document) {
   const now = new Date()

@@ -25,7 +25,8 @@ import { capitalize } from './helpers'
 export default function call (dao, provider, _, msg) {
   return dao.character
     .find({
-      _id: new ObjectId(msg.player.currentCharId),
+//      _id: new ObjectId(msg.player.currentCharId),
+      _id: msg.player.currentCharId,
     })
     .then(head)
     .then(rejectUndefined(msg, _('Invalid char Id')))

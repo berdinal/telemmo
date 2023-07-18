@@ -16,10 +16,8 @@ import models from '../models'
 
 function equipChar (dao, equipId, charId) {
   const equip = models.equips.find(equipId)
-  return dao.character.update({ _id: new ObjectId(charId) }, {
-    $set: {
-      [`equips.${equip.type}`]: equipId,
-    },
+  return dao.character.update({ _id: charId }, {
+      [`equips.${equip.type}`]: equipId
   })
 }
 

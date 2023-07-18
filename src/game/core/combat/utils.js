@@ -38,7 +38,7 @@ export const teamsMemberIds = pipe(
   flatten,
   map(prop('id')),
   filter(ObjectId.isValid),
-  map(createObjectId),
+//  map(createObjectId),
 )
 
 export const combatMemberIds = pipe(

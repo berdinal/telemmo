@@ -29,7 +29,7 @@ function addCharToPlayer (dao, player, char) {
   return dao.character.create(char)
     .then(newChar => dao.player.update(
       { _id: player.id },
-      { $set: { currentCharId: newChar.id } },
+      {  currentCharId: newChar.id },
     ))
     .then(always(char))
 }

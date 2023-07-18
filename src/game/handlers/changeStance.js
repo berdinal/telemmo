@@ -10,7 +10,7 @@ import { reject, rejectUndefined } from './errors'
 function changeStance (dao, playerId, stance, char) {
   return dao.character.update(
     { _id: char.id },
-    { $set: { stance } },
+    { stance },
   )
 }
 
@@ -36,7 +36,7 @@ export default function call (dao, provider, _, msg) {
 
     return dao.character
       .find({
-        _id: new ObjectId(charId),
+        _id: ObjectId(charId),
       })
       .then(nth(0))
       .then(rejectUndefined(msg, _(':x: Invalid stance')))

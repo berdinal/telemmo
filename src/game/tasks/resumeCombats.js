@@ -85,7 +85,7 @@ export default function resumeCombats (dao, dispatch) {
       .then(combats => Promise.all(combats.map(combat =>
           dao.combat.update(
             { _id: combat.id }, 
-            { $set: combat } // This will set each field in the document to its corresponding value in `combat`
+            { combat } // This will set each field in the document to its corresponding value in `combat`
           )
         ))
       )
