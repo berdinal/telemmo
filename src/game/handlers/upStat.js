@@ -42,7 +42,8 @@ export default function call (dao, provider, _, msg) {
     _id: msg.player.currentCharId,
   })
     .then(head)
-    .then(char => membersExp(dao, [new ObjectId(char.id)])
+//    .then(char => membersExp(dao, [ObjectId(char.id)])
+      .then(char => membersExp(dao, char.id)
       .then(head)
       .then(expObj => merge(char, {
         exp: expObj ? expObj.exp : 0,

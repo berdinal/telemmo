@@ -52,9 +52,11 @@ function updateCombat (dao, combat) {
   const query = {
     token: combat.token,
   }
-
+  console.log("In updateCombat, dao is:", JSON.stringify(combat));
   console.log("In updateCombat, query is:", query);
   console.log("In updateCombat, combat object is:", combat);
+  //log it in readable string
+  console.log("In updateCombat, combat object is (stringify):", JSON.stringify(combat));
 
   return dao.combat.update(query, combat)
     .then(result => {
@@ -89,14 +91,20 @@ function updateCombat (dao, combat) {
 //   return dao.combat.update(query, combat, { upsert: true })
 // }
 
+//{"teams.members": {$elemMatch: {"id": ObjectId("64b6f4ea6d83b4c73da4b1b1")}}}
+
+
+//{"teams.members": {$elemMatch:{"id.$oid":{$in:["64b6f4ea6d83b4c73da4b1b1"]}}}}
+
 
 function upsertCombat (dao, combat) {
   console.log("Entering upsertCombat with:", {dao, combat});
   let query = {
     'teams.members': {
         $elemMatch: {
-//        id: { $in: combatMemberIds(combat).map(id => new ObjectId(id)) },
-        id: { $in: combatMemberIds(combat) },
+        id: { $in: combatMemberIds(combat).map(id => new ObjectId(id)) },
+//        id: { $in: combatMemberIds(combat) },
+
       },
   },
   }
@@ -117,7 +125,7 @@ function upsertCombat (dao, combat) {
   //Log the query with readable string
   console.log("Query before update:", JSON.stringify(query, null, 2));
 //  console.log("Final query before update:", query);
-
+//  query = {"teams.members": {$elemMatch:{"name":"Vincenot Figo"}}}
   return dao.combat.update(query, combat, { upsert: true })
   .then(result => {
     console.log("Update result:", result);
@@ -225,49 +233,51 @@ function build (dao, source, tms) {
 }
 
 
-// export function start (combat) {
-//   function* generate () {
-//     let state = combat
-//     while (!state.finishedAt) {
-//       state = yield turn(state, finish)
-//     }
-
-//     return state
-//   }
-
-//   return Promise.resolve()
-//     .then(Promise.coroutine(generate))
-// }
-
-
 export function start (combat) {
   function* generate () {
     let state = combat
     console.log("Entering generate with initial state:", state);
-
     while (!state.finishedAt) {
-      state = yield turn(state, finish);
+      state = yield turn(state, finish)
       console.log("In generate loop, state after yield:", state);
     }
-
     console.log("Exiting generate with final state:", state);
     return state
   }
 
   return Promise.resolve()
-    .then(() => {
-      console.log("Starting coroutine...");
-      return Promise.coroutine(generate);
-    })
-    .then(result => {
-      console.log("After coroutine, result:", result);
-      return result;
-    })
-    .catch(error => {
-      console.error("Error in start function:", error);
-      return undefined; 
-    });
+    .then(Promise.coroutine(generate))
 }
+
+
+// export function start (combat) {
+//   function* generate () {
+//     let state = combat
+//     console.log("Entering generate with initial state:", state);
+
+//     while (!state.finishedAt) {
+//       state = yield turn(state, finish);
+//       console.log("In generate loop, state after yield:", state);
+//     }
+
+//     console.log("Exiting generate with final state:", state);
+//     return state
+//   }
+
+//   return Promise.resolve()
+//     .then(() => {
+//       console.log("Starting coroutine...");
+//       return Promise.coroutine(generate);
+//     })
+//     .then(result => {
+//       console.log("After coroutine, result:", result);
+//       return result;
+//     })
+//     .catch(error => {
+//       console.error("Error in start function:", error);
+//       return undefined; 
+//     });
+// }
 
 
 export function run (dao, source, teams) {

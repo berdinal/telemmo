@@ -40,24 +40,59 @@ function renderCombat (player, combat) {
   }
 }
 
+// function continueExploration (dao, dispatch, combats) {
+//   const explorations = combats.map(
+//     Promise.coroutine(function* (combat) {
+//       console.log(combat)
+//       const gameMap = models.maps.find(combat.source.id)
+//       const char = yield dao.character.find(members(combat)).then(head)
+//       const player = yield dao.player.find(char.playerId).then(head)
+
+//       exploreUntilDead(dao, player, gameMap, char)
+//         .map(partial(renderCombat, [player]))
+//         .subscribe(dispatch)
+
+//       return dispatch(renderCombat(player, combat))
+//     }),
+//   )
+
+//   return Promise.all(explorations)
+// }
+
+
 function continueExploration (dao, dispatch, combats) {
+  console.log('Starting exploration with combat data:', combats); // initial debug log
   const explorations = combats.map(
     Promise.coroutine(function* (combat) {
-      console.log(combat)
-      const gameMap = models.maps.find(combat.source.id)
-      const char = yield dao.character.find(members(combat)).then(head)
-      const player = yield dao.player.find(char.playerId).then(head)
+      console.log('Starting a combat sequence with data:', combat); // debug log for each combat
+      const gameMap = models.maps.find(combat.source.id);
+      console.log('Found map for current combat:', gameMap); // debug log for found map
+
+      const char = yield dao.character.find(members(combat)).then(head);
+      console.log('Character for the current combat:', char); // debug log for found character
+
+      const player = yield dao.player.find(char.playerId).then(head);
+      console.log('Player for the current combat:', player); // debug log for found player
 
       exploreUntilDead(dao, player, gameMap, char)
         .map(partial(renderCombat, [player]))
-        .subscribe(dispatch)
+        .subscribe(dispatch);
 
-      return dispatch(renderCombat(player, combat))
+      console.log('Combat sequence completed'); // debug log for completed combat
+      return dispatch(renderCombat(player, combat));
     }),
-  )
+  );
 
   return Promise.all(explorations)
+    .then((results) => {
+      console.log('All explorations completed', results); // debug log for all completed explorations
+      return results;
+    });
 }
+
+
+
+
 
 function startCombat (combat) {
   console.log('Resuming combat', combat.id)
@@ -77,21 +112,55 @@ function startCombat (combat) {
 //   return Promise.resolve()
 // }
 
-export default function resumeCombats (dao, dispatch) {
+// export default function resumeCombats (dao, dispatch) {
+//   if (cluster.isMaster) {
+//     console.log('Resuming combats...')
+//     return dao.combat.find({ finishedAt: { $exists: false } })
+//       .then(combats => Promise.all(combats.map(startCombat)))
+//       .then(combats => Promise.all(combats.map(combat =>
+//           dao.combat.update(
+//             { _id: combat.id }, 
+//             { combat } // This will set each field in the document to its corresponding value in `combat`
+//           )
+//         ))
+//       )
+//       .then(combats => continueExploration(dao, dispatch, combats))
+//   }
+
+//   return Promise.resolve()
+// }
+
+
+export default function resumeCombats(dao, dispatch) {
   if (cluster.isMaster) {
-    console.log('Resuming combats...')
+    console.log('Resuming combats...');
     return dao.combat.find({ finishedAt: { $exists: false } })
-      .then(combats => Promise.all(combats.map(startCombat)))
-      .then(combats => Promise.all(combats.map(combat =>
+      .then(combats => {
+        console.log('Found combats:', combats);
+        return Promise.all(combats.map(startCombat));
+      })
+      .then(combats => {
+        console.log('Started combats:', combats);
+        return Promise.all(combats.map(combat =>
           dao.combat.update(
-            { _id: combat.id }, 
+            { _id: combat.id },
             { combat } // This will set each field in the document to its corresponding value in `combat`
           )
-        ))
-      )
-      .then(combats => continueExploration(dao, dispatch, combats))
+          .then(updatedCombat => {
+            console.log('Updated combat:', updatedCombat);
+            return updatedCombat;
+          })
+        ));
+      })
+      .then(combats => {
+        console.log('Updated combats:', combats);
+        return continueExploration(dao, dispatch, combats);
+      })
+      .catch(err => {
+        console.error('An error occurred while resuming combats:', err);
+      });
   }
 
-  return Promise.resolve()
+  console.log('Not in master cluster, skipping resuming combats.');
+  return Promise.resolve();
 }
-

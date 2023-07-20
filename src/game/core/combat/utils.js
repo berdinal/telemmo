@@ -8,9 +8,9 @@ import {
 
 import { ObjectId } from 'mongodb'
 
-function createObjectId(id) {
-  return new ObjectId(id);
-}
+// function createObjectId(id) {
+//   return new ObjectId(id);
+// }
 
 // export const teamsMemberIds = pipe(
 //   arr => {console.log('Flatten input:', arr); return arr;},
@@ -20,7 +20,7 @@ function createObjectId(id) {
 //   arr => {console.log('After map ids:', arr); return arr;},
 //   filter(ObjectId.isValid),
 //   arr => {console.log('After filter valid ids:', arr); return arr;},
-//   map(createObjectId),
+//   map(ObjectId),
 //   arr => {console.log('After map to ObjectId:', arr); return arr;},
 // )
 

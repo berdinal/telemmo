@@ -35,6 +35,7 @@ const playerExplorations = pipe(
 export function exploreUntilDead(dao, player, gameMap, char) {
   return Observable.create((subscriber) => {
     function fight() {
+      console.log('Entering function exploreUntilDead in explore.js');
       const monster = randomMonster(gameMap.id)
       const source = { name: 'map', id: gameMap.id }
 

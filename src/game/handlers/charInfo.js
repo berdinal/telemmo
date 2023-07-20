@@ -30,7 +30,7 @@ export default function call (dao, provider, _, msg) {
     })
     .then(head)
     .then(rejectUndefined(msg, _('Invalid char Id')))
-    .then(char => membersExp(dao, [new ObjectId(char.id)])
+    .then(char => membersExp(dao, [char.id])
       .then(head)
       .then(expObj => merge(char, {
         exp: expObj ? expObj.exp : 0,

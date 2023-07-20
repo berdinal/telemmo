@@ -48,17 +48,42 @@ function find (collection, query) {
 // }
 
 
+function executeFindAndLogResult(actions, query) {
+  return actions.find(query)
+    .then(result => {
+//      console.log(`Query result: ${JSON.stringify(result)}`);
+      return result;
+    })
+    .catch(error => {
+      console.error(`Error executing query: ${error.message}`);
+      throw error; // or handle it according to your needs
+    });
+}
+
+
 function update (collection, query, document, options) {
   // Add the $set operator here.
   const sealed = { $set: merge({}, document) };
-  const opts = merge({ returnOriginal: false }, options || {});
+  // const opts = merge({ returnOriginal: false }, options || {});
+  const opts = merge({ returnDocument: 'after' }, options || {});
 
   console.log(`Update called with query: ${JSON.stringify(query)}`);
   console.log(`Update called with document: ${JSON.stringify(sealed)}`);
   console.log(`Update called with options: ${JSON.stringify(opts)}`);
 
-  return retry(() =>
+
+  return collection.findOne(query)
+    .then(findResult => {
+      console.log(`Find result before update: ${JSON.stringify(findResult)}`);
+      return findResult;
+    })
+    .then(() => retry(() =>
+  // return retry(() =>
     collection.findOneAndUpdate(query, sealed, opts)
+      // .then(result => {
+      //   console.log("Update result after calling findOneAndUpdate:", result);
+      //   return result.value; // Extract the 'value' property
+      // })
       .then(prop('value'))
       .then(ifElse(
         isNil,
@@ -73,7 +98,7 @@ function update (collection, query, document, options) {
         console.error('Update error:', err);
         throw err;  // Rethrow the error to handle it in the calling code
       })
-  );
+  ));
 }
 
 
@@ -114,6 +139,45 @@ function build (collection) {
     aggregate: partial(aggregate, [collection]),
   }
 }
+
+
+// function build (collection) {
+//   console.log(`Building actions for collection: ${collection}`);
+//   return {
+//     find: async (...args) => {
+//       console.log(`find called with arguments: ${JSON.stringify(args)}`);
+//       const result = await partial(find, [collection])(...args);
+//       console.log(`find returned: ${JSON.stringify(result)}`);
+//       return result;
+//     },
+//     update: async (...args) => {
+//       console.log(`update called with arguments: ${JSON.stringify(args)}`);
+//       const result = await partial(update, [collection])(...args);
+//       console.log(`update returned: ${JSON.stringify(result)}`);
+//       return result;
+//     },
+//     create: async (...args) => {
+//       console.log(`create called with arguments: ${JSON.stringify(args)}`);
+//       const result = await partial(create, [collection])(...args);
+//       console.log(`create returned: ${JSON.stringify(result)}`);
+//       return result;
+//     },
+//     destroy: async (...args) => {
+//       console.log(`destroy called with arguments: ${JSON.stringify(args)}`);
+//       const result = await partial(destroy, [collection])(...args);
+//       console.log(`destroy returned: ${JSON.stringify(result)}`);
+//       return result;
+//     },
+//     aggregate: async (...args) => {
+//       console.log(`aggregate called with arguments: ${JSON.stringify(args)}`);
+//       const result = await partial(aggregate, [collection])(...args);
+//       console.log(`aggregate returned: ${JSON.stringify(result)}`);
+//       return result;
+//     },
+//   }
+// }
+
+
 
 export default {
   build
