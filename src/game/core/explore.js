@@ -35,26 +35,26 @@ const playerExplorations = pipe(
 export function exploreUntilDead(dao, player, gameMap, char) {
   return Observable.create((subscriber) => {
     function fight() {
-      console.log('Entering function exploreUntilDead in explore.js');
+      console.info('Entering function exploreUntilDead in explore.js');
       const monster = randomMonster(gameMap.id)
       const source = { name: 'map', id: gameMap.id }
 
-      console.log('monster:', monster);
-      console.log('source:', source);
+      console.info('monster:', monster);
+      console.info('source:', source);
 
-      console.log('run is function:', typeof run === 'function'); // <- Log whether run is a function
-      console.log('run:', run); // <- Log the actual run
+      console.info('run is function:', typeof run === 'function'); // <- Log whether run is a function
+      console.info('run:', run); // <- Log the actual run
       //log the actual run function as readable string
-      console.log('run.toString():', run.toString());
+      console.info('run.toString():', run.toString());
 
-      console.log('dao.combat.destroy is function:', typeof dao.combat.destroy === 'function'); // <- Log whether dao.combat.destroy is a function
+      console.info('dao.combat.destroy is function:', typeof dao.combat.destroy === 'function'); // <- Log whether dao.combat.destroy is a function
 
       const playerExploration = playerExplorations(player);
-      console.log('playerExplorations(player):', playerExploration); // <- Log playerExplorations(player)
+      console.info('playerExplorations(player):', playerExploration); // <- Log playerExplorations(player)
 
       return dao.combat.destroy(playerExploration, { hard: true })
         .then(result => {
-          console.log('dao.combat.destroy result:', result);
+          console.info('dao.combat.destroy result:', result);
           return result;
         })
         .catch(error => {
@@ -62,12 +62,12 @@ export function exploreUntilDead(dao, player, gameMap, char) {
           throw error; // Make sure to re-throw the error so that the promise remains rejected
         })
         .then(() => {
-          console.log('Checking arguments:', dao, source, monster, char);
+          console.info('Checking arguments:', dao, source, monster, char);
 //          return Promise.resolve();
           return run(dao, source, [[monster], [char]]);
         })
         .then(result => {
-          console.log('run result:', result);
+          console.info('run result:', result);
           return result;
         })
         .catch(error => {
@@ -77,7 +77,7 @@ export function exploreUntilDead(dao, player, gameMap, char) {
         .then(ifElse(
           isNil,
           () => {
-            console.log('Promise rejected due to ifElse resulting in isNil');
+            console.info('Promise rejected due to ifElse resulting in isNil');
             return Promise.reject(new Error())
           },
           identity,
@@ -107,10 +107,10 @@ export function exploreUntilDead(dao, player, gameMap, char) {
 //       const monster = randomMonster(gameMap.id)
 //       const source = { name: 'map', id: gameMap.id }
 
-//       console.log('run is function:', typeof run === 'function'); // <- Log whether run is a function
-//       console.log('run:', run); // <- Log the actual run
-//       console.log('dao.combat.destroy is function:', typeof dao.combat.destroy === 'function'); // <- Log whether dao.combat.destroy is a function
-//       console.log('playerExplorations(player):', playerExplorations(player)); // <- Log playerExplorations(player)
+//       console.info('run is function:', typeof run === 'function'); // <- Log whether run is a function
+//       console.info('run:', run); // <- Log the actual run
+//       console.info('dao.combat.destroy is function:', typeof dao.combat.destroy === 'function'); // <- Log whether dao.combat.destroy is a function
+//       console.info('playerExplorations(player):', playerExplorations(player)); // <- Log playerExplorations(player)
 //       return dao.combat.destroy(playerExplorations(player), { hard: true })
 //         .then(partial(run, [dao, source, [[monster], [char]]]))
 //         .then(ifElse(

@@ -13,23 +13,23 @@ import { ObjectId } from 'mongodb'
 // }
 
 // export const teamsMemberIds = pipe(
-//   arr => {console.log('Flatten input:', arr); return arr;},
+//   arr => {console.info('Flatten input:', arr); return arr;},
 //   flatten,
-//   arr => {console.log('After flatten:', arr); return arr;},
+//   arr => {console.info('After flatten:', arr); return arr;},
 //   map(prop('id')),
-//   arr => {console.log('After map ids:', arr); return arr;},
+//   arr => {console.info('After map ids:', arr); return arr;},
 //   filter(ObjectId.isValid),
-//   arr => {console.log('After filter valid ids:', arr); return arr;},
+//   arr => {console.info('After filter valid ids:', arr); return arr;},
 //   map(ObjectId),
-//   arr => {console.log('After map to ObjectId:', arr); return arr;},
+//   arr => {console.info('After map to ObjectId:', arr); return arr;},
 // )
 
 // export const combatMemberIds = pipe(
-//   obj => {console.log('Initial object:', obj); return obj;},
+//   obj => {console.info('Initial object:', obj); return obj;},
 //   prop('teams'),
-//   arr => {console.log('After prop teams:', arr); return arr;},
+//   arr => {console.info('After prop teams:', arr); return arr;},
 //   map(prop('members')),
-//   arr => {console.log('After map members:', arr); return arr;},
+//   arr => {console.info('After map members:', arr); return arr;},
 //   teamsMemberIds,
 // )
 

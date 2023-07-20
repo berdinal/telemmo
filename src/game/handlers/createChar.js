@@ -17,7 +17,7 @@ function renderSuccess (_, char) {
 }
 
 function renderError (_, msg, err) {
-  console.log('Failed creating char:', err)
+  console.info('Failed creating char:', err)
 
   return {
     to: msg.chat,

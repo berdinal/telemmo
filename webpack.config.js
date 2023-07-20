@@ -11,7 +11,7 @@ const externals = fs.readdirSync('node_modules')
       merge(modules, objOf(module, `commonjs ${module}`)), {})
 
 module.exports = {
-  mode: 'development',  // or 'production'
+  mode: 'development',  // 'development' or 'production'
   entry: './src/index.js',
   output: {
     path: path.join(__dirname, 'dist'),

@@ -41,21 +41,21 @@ function update (collection, query, document, options) {
     // const opts = merge({ returnOriginal: false }, options || {});
     const opts = merge({ returnOriginal: false }, options || {});
   
-    console.log(`Update called with query: ${JSON.stringify(query)}`);
-    console.log(`Update called with document: ${JSON.stringify(sealed)}`);
-    console.log(`Update called with options: ${JSON.stringify(opts)}`);
+    console.info(`Update called with query: ${JSON.stringify(query)}`);
+    console.info(`Update called with document: ${JSON.stringify(sealed)}`);
+    console.info(`Update called with options: ${JSON.stringify(opts)}`);
   
   
     return collection.findOne(query)
       .then(findResult => {
-        console.log(`Find result before update: ${JSON.stringify(findResult)}`);
+        console.info(`Find result before update: ${JSON.stringify(findResult)}`);
         return findResult;
       })
       .then(() => retry(() =>
     // return retry(() =>
       collection.findOneAndUpdate(query, sealed, opts)
         .then(result => {
-          console.log("Update result after calling findOneAndUpdate:", result);
+          console.info("Update result after calling findOneAndUpdate:", result);
           return result.value; // Extract the 'value' property
         })
 //        .then(prop('value'))
@@ -65,7 +65,7 @@ function update (collection, query, document, options) {
           renameId,
         ))
         .then(result => {
-          console.log("Update result:", result);
+          console.info("Update result:", result);
           return result;
         })
         .catch(err => {
@@ -88,4 +88,4 @@ function update (collection, query, document, options) {
 
 query = {"teams.members": {$elemMatch:{"name":"Vincenot Figo"}}}
 
-console.log(update(collection, query, { 'token': 'test4' }, { upsert: true, returnOriginal: false }))
+console.info(update(collection, query, { 'token': 'test4' }, { upsert: true, returnOriginal: false }))

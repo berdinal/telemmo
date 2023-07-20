@@ -5,6 +5,10 @@ import Promise from 'bluebird'
 import engine from './engine'
 import game from './game'
 
+if (process.env.NODE_ENV === 'production') {
+  console.info = function() {};
+}
+
 Promise.config({
   warnings: true,
   longStackTraces: true,

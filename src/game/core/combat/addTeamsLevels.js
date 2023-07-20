@@ -11,9 +11,9 @@ import { level } from '../level'
 import { teamsMemberIds } from './utils'
 
 function mergeLevel (teams, computedExps) {
-  console.log("Teams: ", teams); // Add debug line
+  console.info("Teams: ", teams); // Add debug line
   return teams.map(team => {
-    console.log("Team: ", team); // Add debug line
+    console.info("Team: ", team); // Add debug line
     return team.map((char) => {
       if (char.prizes) { return char }
       const charExp = pipe(find(propEq('_id', char.id)), propOr(0, 'exp'))
@@ -24,7 +24,7 @@ function mergeLevel (teams, computedExps) {
 }
 
 export default function (dao, teams) {
-  console.log("Entering addTeamsLevels with:", {dao, teams})
+  console.info("Entering addTeamsLevels with:", {dao, teams})
   const members = teamsMemberIds(teams)
 
   return dao.combat.aggregate([

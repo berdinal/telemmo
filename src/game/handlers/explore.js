@@ -26,10 +26,10 @@ import { exploreUntilDead } from '../core/explore'
 const flatHead = pipe(map(head), flatten)
 
 export function render (_, player, result) {
-  console.log('Entering function render in explore.js')
-  console.log('Player:', player); // debug log to print the value of player
-  console.log('Result:', result); // debug log to print the value of result
-  console.log('Prizes:', result ? result.prizes : 'Result is undefined'); // debug log to print the value of result.prizes
+  console.info('Entering function render in explore.js')
+  console.info('Player:', player); // debug log to print the value of player
+  console.info('Result:', result); // debug log to print the value of result
+  console.info('Prizes:', result ? result.prizes : 'Result is undefined'); // debug log to print the value of result.prizes
 
   const initiative = head(result.turns)
   const turns = tail(result.turns)

@@ -36,7 +36,7 @@ export default function call (dao, provider, _, msg) {
 
     return dao.character
       .find({
-        _id: ObjectId(charId),
+        _id: new ObjectId(charId),
       })
       .then(nth(0))
       .then(rejectUndefined(msg, _(':x: Invalid stance')))
